@@ -45,3 +45,6 @@ app.*.map.json
 
 # notes folder
 _notes
+
+# variables de entorno
+.env
