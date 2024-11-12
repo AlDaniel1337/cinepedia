@@ -8,7 +8,7 @@ class NavigationItem {
   final Widget page;
 
   NavigationItem({
-    required this.icon, 
+    required this.icon,
     required this.label,
     required this.page,
   });
@@ -27,15 +27,20 @@ class CustomButtonNavigationBar extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    var selectedPage = navigationBarController.selectedPage.value;
+
     return BottomNavigationBar(
       selectedItemColor: Colors.red,
-      currentIndex: navigationBarController.selectedPage.value,
+      selectedFontSize: 16,
+      selectedIconTheme: const IconThemeData(size: 28),
+      currentIndex: selectedPage,
 
       onTap: (value) {
         navigationBarController.selectedPage.value = value;
       },
 
-      items: navElements.map( (element) => BottomNavigationBarItem(
+      items: navElements.map( ( element ) => BottomNavigationBarItem(
         icon: element.icon, 
         label: element.label
       )).toList()

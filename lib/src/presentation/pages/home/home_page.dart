@@ -20,8 +20,8 @@ class MoviesHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     List<NavigationItem> navElements = [
-      NavigationItem(label: "Inicio",     page: const MoviesPage(),    icon: const Icon( Icons.home_max )),
-      NavigationItem(label: "Populares",  page: const PopularPage(),   icon: const Icon( Icons.label_outline )),
+      NavigationItem(label: "Inicio",     page: const MoviesPage(),    icon: const Icon( Icons.home_max_outlined )),
+      NavigationItem(label: "Populares",  page: const PopularPage(),   icon: const Icon( Icons.thumbs_up_down_outlined )),
       NavigationItem(label: "Favoritos",  page: const FavoritesPage(), icon: const Icon( Icons.favorite_border_rounded )),
     ];
 

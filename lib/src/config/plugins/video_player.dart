@@ -72,7 +72,8 @@ class _YouTubeVideoPlayerState extends State<_YouTubeVideoPlayer> {
         crossAxisAlignment: CrossAxisAlignment.start,
 
         children: [
-
+          
+          const Text("Videos", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           Text(widget.name),
           YoutubePlayer(controller: _controller)
           

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cinepedia/src/config/plugins/video_player.dart';
 import 'package:cinepedia/src/presentation/providers/videos/movie_videos_provider.dart';
 import 'package:flutter/material.dart';
@@ -19,21 +21,22 @@ class MovieVideo extends ConsumerWidget {
     //* Obtener videos
     final videos = ref.watch( videosByMovieIdProvider );
 
-    //+ Indicar carga de actores
+    //+ Indicar carga de videos
     if( videos[movieId.toString()] == null ){
       return const Center(child: CircularProgressIndicator());
     }
 
     final movieVideos = videos[movieId.toString()];
 
+    if(movieVideos != null && movieVideos.isEmpty) return const Center(child: Text("Sin videos", style: TextStyle( fontSize: 18, fontWeight: FontWeight.bold )));
 
-    if(movieVideos != null && movieVideos.isEmpty) return const Text("Sin videos");
-
-    print(movieVideos![0].key);
+    //* Seleccionar video de forma aleatoria
+    var rng = Random();
+    var selectedVideo = rng.nextInt(movieVideos!.length);
 
     return VideoPlayerPlugin(
-      youtubeId: movieVideos![0].key,
-      name:      movieVideos[0].name,
+      youtubeId: movieVideos[selectedVideo].key,
+      name:      movieVideos[selectedVideo].name,
     );
   }
 }
