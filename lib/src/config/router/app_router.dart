@@ -1,4 +1,6 @@
 import 'package:cinepedia/src/presentation/pages/home/home_page.dart';
+import 'package:cinepedia/src/presentation/pages/movie/movie_page.dart';
+import 'package:cinepedia/src/presentation/pages/movies/movies_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +20,9 @@ class Routes{
   static List<GetPage> getRoutes(){
     
     List<GetPage> pages = [
-      GetPage(name: home, page:() => const MoviesHomePage()),
+      GetPage(name: MoviesHomePage.route, page:() => const MoviesHomePage( keepState: true, )),
+      GetPage(name: MoviesPage.route,     page:() => const MoviesPage()),
+      GetPage(name: MoviePage.route,      page:() => MoviePage())
     ];
     
     return pages;

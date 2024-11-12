@@ -56,7 +56,7 @@ class MyApp extends ConsumerWidget {
     // [Agregar gestor de estados GetX]
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Diseños',
+      title: 'Cinepedia',
       initialRoute: Routes.home,
       getPages: Routes.getRoutes(),
       navigatorKey: Get.key,

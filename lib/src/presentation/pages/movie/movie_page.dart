@@ -3,6 +3,7 @@ import 'package:cinepedia/src/domain/entities/actor.dart';
 import 'package:cinepedia/src/presentation/pages/movie/widgets/widgets.dart';
 import 'package:cinepedia/src/presentation/pages/movies/widgets/gradient_container.dart';
 import 'package:cinepedia/src/presentation/providers/providers.dart';
+import 'package:cinepedia/src/presentation/providers/videos/movie_videos_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -31,16 +32,19 @@ class MoviePageState extends ConsumerState<MoviePage> {
     super.initState();
     
     //* Peticiones http
-    ref.read( moveInfoProvider.notifier ).loadMovie(widget.movieId);
-    ref.read( actorsByMovieProvider.notifier ).loadMovieActors(widget.movieId);
+    ref.read( moveInfoProvider.notifier        ).loadMovie(widget.movieId);
+    ref.read( actorsByMovieProvider.notifier   ).loadMovieActors(widget.movieId);
+    ref.read( videosByMovieIdProvider.notifier ).loadMovieVideos(widget.movieId);
 
   }
 
   @override
   Widget build(BuildContext context) {
 
+    //* Revisar cache
     final Movie? movie = ref.watch( moveInfoProvider )[widget.movieId];
     final List<Actor>? actors = ref.watch( actorsByMovieProvider )[widget.movieId];
+    final List<Videos>? videos = ref.watch( videosByMovieIdProvider )[widget.movieId];
 
     return Scaffold(   
       body: Center(
@@ -72,7 +76,7 @@ class _Body extends StatelessWidget {
         // Detalles
         SliverList(
           delegate: SliverChildBuilderDelegate( 
-            (context, index) => MovieDescription( movie: movie, ), 
+            (context, index) => MovieDetails( movie: movie, ), 
             childCount: 1 
           ),
         ),
