@@ -15,6 +15,7 @@ final nowPlayingMoviesProvider = StateNotifierProvider< MoviesNotifier, List<Mov
   );
 });
 
+
 /// Populares
 final popularMoviesProvider = StateNotifierProvider< MoviesNotifier, List<Movie> >( (ref) {
 

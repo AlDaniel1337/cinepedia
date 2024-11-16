@@ -14,4 +14,12 @@ abstract class MoviesRepository {
   
   /// Definir como debe de lucir la peticion [searchMovies]
   Future<List<Movie>> searchMovies( String query );
+
+  //& Similares
+  /// Definir como debe de lucir la peticion [similarMovies]
+  Future<List<Movie>> similarMovies(String movieId);
+
+  //& Reocmendadas
+  /// Definir como debe de lucir la peticion [recommendedMovies]
+  Future<List<Movie>> recommendedMovies(String movieId);
 }

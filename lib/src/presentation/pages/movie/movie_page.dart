@@ -2,6 +2,8 @@ import 'package:cinepedia/src/domain/domain.dart';
 import 'package:cinepedia/src/domain/entities/actor.dart';
 import 'package:cinepedia/src/presentation/pages/movie/widgets/widgets.dart';
 import 'package:cinepedia/src/presentation/pages/movies/widgets/gradient_container.dart';
+import 'package:cinepedia/src/presentation/providers/movies/movie_recommended_provider.dart';
+import 'package:cinepedia/src/presentation/providers/movies/movie_similar_provider.dart';
 import 'package:cinepedia/src/presentation/providers/providers.dart';
 import 'package:cinepedia/src/presentation/providers/videos/movie_videos_provider.dart';
 import 'package:flutter/material.dart';
@@ -31,10 +33,12 @@ class MoviePageState extends ConsumerState<MoviePage> {
   void initState() {
     super.initState();
     
-    //* Peticiones http
-    ref.read( moveInfoProvider.notifier        ).loadMovie(widget.movieId);
-    ref.read( actorsByMovieProvider.notifier   ).loadMovieActors(widget.movieId);
-    ref.read( videosByMovieIdProvider.notifier ).loadMovieVideos(widget.movieId);
+    //* CARGAR PELICULAS (Peticiones http)
+    ref.read( moveInfoProvider.notifier          ).loadMovie(widget.movieId);
+    ref.read( actorsByMovieProvider.notifier     ).loadMovieActors(widget.movieId);
+    ref.read( videosByMovieIdProvider.notifier   ).loadMovieVideos(widget.movieId);
+    ref.read( recommendedMoviesProvider.notifier ).loadRecommendedMovies(widget.movieId);
+    ref.read( similarMoviesProvider.notifier     ).loadSimilarMovies(widget.movieId);
 
   }
 
@@ -43,14 +47,17 @@ class MoviePageState extends ConsumerState<MoviePage> {
 
     //* Revisar cache
     final Movie? movie = ref.watch( moveInfoProvider )[widget.movieId];
-    final List<Actor>? actors = ref.watch( actorsByMovieProvider )[widget.movieId];
-    final List<Videos>? videos = ref.watch( videosByMovieIdProvider )[widget.movieId];
+    // final List<Videos>? videos = ref.watch( videosByMovieIdProvider )[widget.movieId];
+    final recommended = ref.watch( recommendedMoviesProvider )[widget.movieId];
 
     return Scaffold(   
       body: Center(
         child: ( movie == null )
         ? const CircularProgressIndicator()
-        : _Body( movie: movie, actors: actors, ),
+        : _Body( 
+            movie: movie,  
+            recommendedMovies: recommended ?? [],
+          ),
       ),
     );
   }
@@ -60,9 +67,12 @@ class MoviePageState extends ConsumerState<MoviePage> {
 class _Body extends StatelessWidget {
 
   final Movie movie;
-  final List<Actor>? actors;
+  final List<Movie> recommendedMovies;
 
-  const _Body({ required this.movie, this.actors });
+  const _Body({
+    required this.movie,
+    required this.recommendedMovies,
+  });
   
   @override
   Widget build(BuildContext context) {
@@ -76,7 +86,10 @@ class _Body extends StatelessWidget {
         // Detalles
         SliverList(
           delegate: SliverChildBuilderDelegate( 
-            (context, index) => MovieDetails( movie: movie, ), 
+            (context, index) => MovieDetails( 
+              movie: movie,
+              recommendedMovies: recommendedMovies, 
+            ), 
             childCount: 1 
           ),
         ),

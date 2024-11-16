@@ -1,3 +1,8 @@
+
+//===========================================================
+//*      ADAPTACION DEL PAQUETE [animate_do]
+//LINK - pub.dev/packages/animate_do
+//==========================================================
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -63,11 +63,22 @@ class MoviedbDatasource extends MoviesDatasource implements  MovieDatasource {
     return movies;
   }
 
+  @override
+  Future<List<Movie>> recommendedMovies(String movieId) {
+    return _getMovies(url: UrlList.recommended, movieId: movieId);
+  }
+  
+  @override
+  Future<List<Movie>> similarMovies(String movieId) {
+    return _getMovies(url: UrlList.similar, movieId: movieId);
+  }
+  
+
 
   /// Obtener listado de peliculas
-  Future<List<Movie>> _getMovies({int page = 1, required UrlList url}) async {
+  Future<List<Movie>> _getMovies({int page = 1, required UrlList url, String movieId = ""}) async {
 
-    String path = _getUrl(url);
+    String path = _getUrl(url: url, movieId: movieId);
     
     //* Peticion http
     final response = await _httpAdapter.get(path: path, 
@@ -107,19 +118,22 @@ class MoviedbDatasource extends MoviesDatasource implements  MovieDatasource {
     return movie;
   } 
 
+
   /// Obtener url en base a un enum
-  String _getUrl(UrlList url){
+  String _getUrl({ required UrlList url, String movieId = ""}){
+    
+    if(movieId != "") movieId = '$movieId/';
+
     switch (url){
-      case (UrlList.nowPlaying): return '/movie/now_playing';
-      case (UrlList.popular): return '/movie/popular';
-      case (UrlList.upcoming): return '/movie/upcoming';
-      case (UrlList.topRated): return '/movie/top_rated';
+      case (UrlList.nowPlaying):  return '/movie/now_playing';
+      case (UrlList.popular):     return '/movie/popular';
+      case (UrlList.upcoming):    return '/movie/upcoming';
+      case (UrlList.topRated):    return '/movie/top_rated';
+      case (UrlList.recommended): return '/movie/${movieId}recommendations';
+      case (UrlList.similar):     return '/movie/${movieId}similar';
     }
   }
-  
-  
-  
-
+ 
 }
 
-enum UrlList {nowPlaying, popular, upcoming, topRated}
+enum UrlList {nowPlaying, popular, upcoming, topRated, recommended, similar}
