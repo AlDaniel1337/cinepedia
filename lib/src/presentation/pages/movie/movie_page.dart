@@ -1,5 +1,4 @@
 import 'package:cinepedia/src/domain/domain.dart';
-import 'package:cinepedia/src/domain/entities/actor.dart';
 import 'package:cinepedia/src/presentation/pages/movie/widgets/widgets.dart';
 import 'package:cinepedia/src/presentation/pages/movies/widgets/gradient_container.dart';
 import 'package:cinepedia/src/presentation/providers/movies/movie_recommended_provider.dart';
@@ -47,8 +46,8 @@ class MoviePageState extends ConsumerState<MoviePage> {
 
     //* Revisar cache
     final Movie? movie = ref.watch( moveInfoProvider )[widget.movieId];
-    // final List<Videos>? videos = ref.watch( videosByMovieIdProvider )[widget.movieId];
-    final recommended = ref.watch( recommendedMoviesProvider )[widget.movieId];
+    final recommended  = ref.watch( recommendedMoviesProvider )[widget.movieId];
+    final similar      = ref.watch( similarMoviesProvider )[widget.movieId];
 
     return Scaffold(   
       body: Center(
@@ -57,6 +56,7 @@ class MoviePageState extends ConsumerState<MoviePage> {
         : _Body( 
             movie: movie,  
             recommendedMovies: recommended ?? [],
+            similarMovies: similar ?? [],
           ),
       ),
     );
@@ -68,10 +68,12 @@ class _Body extends StatelessWidget {
 
   final Movie movie;
   final List<Movie> recommendedMovies;
+  final List<Movie> similarMovies;
 
   const _Body({
     required this.movie,
     required this.recommendedMovies,
+    required this.similarMovies,
   });
   
   @override
@@ -89,6 +91,7 @@ class _Body extends StatelessWidget {
             (context, index) => MovieDetails( 
               movie: movie,
               recommendedMovies: recommendedMovies, 
+              similarMovies: similarMovies
             ), 
             childCount: 1 
           ),
